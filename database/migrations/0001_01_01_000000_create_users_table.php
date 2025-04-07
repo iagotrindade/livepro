@@ -14,9 +14,14 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('cpf_cnpj')->nullable();
+            $table->string('phone')->nullable();
+            $table->longText('biography')->nullable();
+            $table->date('birthdate')->nullable();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
+            $table->string('password')->nullable();
+            $table->string('status');
             $table->rememberToken();
             $table->timestamps();
         });
@@ -35,6 +40,14 @@ return new class extends Migration
             $table->longText('payload');
             $table->integer('last_activity')->index();
         });
+
+        Schema::create('access_codes', function (Blueprint $table) {
+            $table->string('id')->primary();
+            $table->foreignId('user_id')->nullable()->index();
+            $table->string('hash');
+            $table->timestamp('expiration');
+            $table->boolean('used')->default(false);
+        });
     }
 
     /**
@@ -45,5 +58,6 @@ return new class extends Migration
         Schema::dropIfExists('users');
         Schema::dropIfExists('password_reset_tokens');
         Schema::dropIfExists('sessions');
+        Schema::dropIfExists('access_codes');
     }
 };
