@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('complainant_id')->constrained('users');
             $table->longText('complainant_files')->nullable();
             $table->foreignId('defendant_id')->nullable()->constrained('users');
+            $table->foreignId('support_agent_id')->nullable()->constrained('users');
             $table->longText('defendant_files')->nullable();
             $table->text('reason');
             $table->text('reply')->nullable();
