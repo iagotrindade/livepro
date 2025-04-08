@@ -73,6 +73,7 @@ class AuthController extends Controller
             $user->notify(new SendAccessTokenNotification($accessToken, $user->name, $accessDetails));
 
             // REDIRECIONAR PARA CONFIRMAÇÃO DE LOGIN
+            Auth::attempt(['email' => $request->email, 'password' => $request->password]);
             return redirect(route('confirm.signin'));
         } else {
             return back()->withErrors(['email' => 'E-mail ou senha inválidos']);

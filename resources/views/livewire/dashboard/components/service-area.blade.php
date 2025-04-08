@@ -307,7 +307,7 @@
         </dl>
     </div>
 
-    @if ($schedule->status->getName() == 'Em disputa')
+    @if ($schedule->status->getName() == 'Em disputa' && $schedule->dispute)
         <div
             class="grid grid-cols-5 gap-4 col-span-full shadow-sm bg-gray-100 border-gray-700 p-6 dark:bg-gray-800 rounded-lg">
             <div class="col-span-3">
