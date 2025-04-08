@@ -23,7 +23,6 @@
                     <div class="px-10 flex-1 mt-16">
                         <h1 class="text-left text-2xl font-semibold mb-3">
                             Bem Vindo ao LivePRO
-                            
                         </h1>
 
                         <p class="text-left text-black text-lg">

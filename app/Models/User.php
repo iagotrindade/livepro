@@ -73,6 +73,16 @@ class User extends Authenticatable
         return $this->hasMany(AccessToken::class);
     }
 
+    public function professionalServices(): HasMany
+    {
+        return $this->hasMany(Schedule::class, 'professional_id', 'id');
+    }
+
+    public function clientServices(): HasMany
+    {
+        return $this->hasMany(Schedule::class, 'client_id', 'id');
+    }
+
     public function clientPayments(): HasMany
     {
         return $this->hasMany(Payment::class, 'client_id');

@@ -2,11 +2,16 @@
     <div class="grid grid-cols-2 gap-4 col-span-3">
         <div class="shadow-sm bg-gray-100 border-gray-700 p-6 dark:bg-gray-800 rounded-lg">
             <div class="flex gap-4 mb-3">
-                <img class="w-16 h-16 rounded-full"
-                    src="{{ url('storage/assets/images/avatars/default_user_avatar.png') }}" alt="Imagem do usuário">
+                @if ($schedule->professional->avatar)
+                    <img class="w-16 h-16 rounded-full" src="{{ url('storage/' . $schedule->professional->avatar->file) }}"
+                        alt="{{ $schedule->professional->avatar->name }}" />
+                @else
+                    <img class="rounded-full shadow-lg" src="/storage/assets/images/avatars/default_user_avatar.png"
+                        alt="Imagem do usuário" />
+                @endif
                 <div class="h-full">
                     <h1 class="text-xl font-extrabold dark:text-white mb-2">
-                        Helene Engels
+                        {{ $schedule->professional->name }}
                     </h1>
                     <span
                         class="flex items-center gap-2 w-max bg-blue-100 text-blue-700 text-xs font-medium me-2 px-2.5 py-0.5 rounded-sm dark:bg-blue-700 dark:text-blue-100 text-center">
@@ -18,7 +23,9 @@
                                 clip-rule="evenodd" />
                         </svg>
 
-                        <p>Veterinário</p>
+                        <p>
+                            {{ $schedule->professional->occupations[0]->name }}
+                        </p>
                     </span>
                 </div>
             </div>
@@ -27,31 +34,31 @@
                 <div>
                     <dt class="font-semibold text-gray-900 dark:text-white">Email</dt>
 
-                    <a href="mailto:helene@example.com"
+                    <a href="mailto:{{ $schedule->professional->email }}"
                         class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
-                        helene@example.com
+                        {{ $schedule->professional->email }}
                     </a>
                 </div>
 
                 <div>
                     <dt class="font-semibold text-gray-900 dark:text-white">Telefone</dt>
-                    <a href="tel:+55 51 9 91657516"
+                    <a href="tel:{{ $schedule->professional->phone ?? 'Nenhum telefone cadastrado' }}"
                         class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
-                        +55 51 9 91657516
+                        {{ $schedule->professional->phone ?? 'Nenhum telefone cadastrado'}}
                     </a>
                 </div>
 
                 <div>
                     <dt class="font-semibold text-gray-900 dark:text-white">Serviços</dt>
                     <dd class="flex items-center gap-1 text-gray-500 dark:text-gray-400">
-                        55
+                        {{ $schedule->professional->professionalServices->count() }}
                     </dd>
                 </div>
 
                 <div>
                     <dt class="font-semibold text-gray-900 dark:text-white">Membro</dt>
                     <dd class="flex items-center gap-1 text-gray-500 dark:text-gray-400">
-                        há 2 anos
+                        {{ $schedule->professional->created_at->diffForHumans() }}
                     </dd>
                 </div>
             </div>
@@ -59,11 +66,16 @@
 
         <div class="col-span-1 shadow-sm bg-gray-100 border-gray-700 p-6 dark:bg-gray-800 rounded-lg">
             <div class="flex gap-4 mb-3">
-                <img class="w-16 h-16 rounded-full"
-                    src="{{ url('storage/assets/images/avatars/default_user_avatar.png') }}" alt="Imagem do usuário">
+                @if ($schedule->client->avatar)
+                    <img class="w-16 h-16 rounded-full" src="{{ url('storage/' . $schedule->client->avatar->file) }}"
+                        alt="{{ $schedule->client->avatar->name }}" />
+                @else
+                    <img class="rounded-full shadow-lg" src="/storage/assets/images/avatars/default_user_avatar.png"
+                        alt="Imagem do usuário" />
+                @endif
                 <div class="h-full">
                     <h1 class="text-xl font-extrabold dark:text-white mb-2">
-                        Helene Engels
+                        {{ $schedule->client->name }}
                     </h1>
                     <span
                         class="flex items-center gap-2 w-max bg-blue-100 text-blue-700 text-xs font-medium me-2 px-2.5 py-0.5 rounded-sm dark:bg-blue-700 dark:text-blue-100 text-center">
@@ -76,7 +88,6 @@
                                 clip-rule="evenodd" />
                         </svg>
 
-
                         <p>Cliente</p>
                     </span>
                 </div>
@@ -86,31 +97,31 @@
                 <div>
                     <dt class="font-semibold text-gray-900 dark:text-white">Email</dt>
 
-                    <a href="mailto:helene@example.com"
+                    <a href="mailto:{{ $schedule->client->email }}"
                         class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
-                        helene@example.com
+                        {{ $schedule->client->email }}
                     </a>
                 </div>
 
                 <div>
                     <dt class="font-semibold text-gray-900 dark:text-white">Telefone</dt>
-                    <a href="tel:+55 51 9 91657516"
+                    <a href="tel:{{ $schedule->client->phone ?? '' }}"
                         class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
-                        +55 51 9 91657516
+                        {{ $schedule->client->phone ?? 'Nenhum telefone cadastrado' }}
                     </a>
                 </div>
 
                 <div>
                     <dt class="font-semibold text-gray-900 dark:text-white">Serviços</dt>
                     <dd class="flex items-center gap-1 text-gray-500 dark:text-gray-400">
-                        55
+                        {{ $schedule->professional->clientServices->count() }}
                     </dd>
                 </div>
 
                 <div>
                     <dt class="font-semibold text-gray-900 dark:text-white">Membro</dt>
                     <dd class="flex items-center gap-1 text-gray-500 dark:text-gray-400">
-                        há 2 anos
+                        {{ $schedule->professional->created_at->diffForHumans() }}
                     </dd>
                 </div>
             </div>
@@ -307,7 +318,7 @@
         </dl>
     </div>
 
-    @if ($schedule->status->getName() == 'Em disputa')
+    @if ($schedule->status->getName() == 'Em disputa' && $schedule->dispute)
         <div
             class="grid grid-cols-5 gap-4 col-span-full shadow-sm bg-gray-100 border-gray-700 p-6 dark:bg-gray-800 rounded-lg">
             <div class="col-span-3">
@@ -537,10 +548,17 @@
                         <select id="status"
                             class="w-full p-2.5 mb-3 text-sm rounded-lg border text-gray-900 bg-white dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400"
                             wire:model="status">
-                            <option value="open" {{ $schedule->dispute->status->value === 'open' ? 'selected' : '' }}>Aberto</option>
-                            <option value="in_review" {{ $schedule->dispute->status->value === 'in_review' ? 'selected' : '' }}>Em revisão</option>
-                            <option value="granted" {{ $schedule->dispute->status->value === 'granted' ? 'selected' : '' }}>Deferido</option>
-                            <option value="dismissed" {{ $schedule->dispute->status->value === 'dismissed' ? 'selected' : '' }}>Indeferido</option>
+                            <option value="open"
+                                {{ $schedule->dispute->status->value === 'open' ? 'selected' : '' }}>Aberto</option>
+                            <option value="in_review"
+                                {{ $schedule->dispute->status->value === 'in_review' ? 'selected' : '' }}>Em revisão
+                            </option>
+                            <option value="granted"
+                                {{ $schedule->dispute->status->value === 'granted' ? 'selected' : '' }}>Deferido
+                            </option>
+                            <option value="dismissed"
+                                {{ $schedule->dispute->status->value === 'dismissed' ? 'selected' : '' }}>Indeferido
+                            </option>
                         </select>
 
                         <div
@@ -548,9 +566,7 @@
 
                             <div class="px-4 py-2 bg-white rounded-t-lg dark:bg-gray-800">
                                 <label for="comment" class="sr-only">Sua resolução</label>
-                                <textarea 
-                                    wire:model="resolution"
-                                    id="comment" rows="4"
+                                <textarea wire:model="resolution" id="comment" rows="4"
                                     class="w-full min-h-48 px-0 text-sm text-gray-900 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400"
                                     placeholder="Descreva as motivações do seu parecer..." required></textarea>
                             </div>

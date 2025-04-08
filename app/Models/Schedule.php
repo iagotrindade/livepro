@@ -36,6 +36,7 @@ class Schedule extends Model
     {
         return $this->belongsTo(User::class, 'client_id', 'id');
     }
+
     public function professional(): BelongsTo
     {
         return $this->belongsTo(User::class, 'professional_id', 'id');

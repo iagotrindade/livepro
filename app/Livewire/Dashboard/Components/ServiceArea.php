@@ -21,7 +21,7 @@ class ServiceArea extends Component
     public function mount(Request $request)
     {
         $this->schedule = Schedule::find($request->id);
-        $this->status = $this->schedule->dispute->status->value;
+        $this->status = $this->schedule->dispute->status->value ?? '';
     }
 
     public function submitResolution()
