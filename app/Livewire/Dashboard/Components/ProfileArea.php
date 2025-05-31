@@ -189,6 +189,17 @@ class ProfileArea extends Component
     {
         $notificationPreferences = $this->user->notificationPreferences;
 
+        // Se o usuário não tiver preferências, cria um novo registro
+        if (!$notificationPreferences) {
+            $notificationPreferences = $this->user->notificationPreferences()->create(
+                [
+                    'newsletter' => 0,
+                    'account_activity' => 0,
+                    'new_messages' => 0,
+                ]
+            );
+        }
+
         $currentValue = $notificationPreferences->$type;
         $newValue = $currentValue == 1 ? 0 : 1;
 

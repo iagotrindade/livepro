@@ -68,7 +68,8 @@
                             Enviar imagem
                         </button>
                         @if ($user->avatar)
-                            <button wire:confirm="Deseja realmente excluir sua foto de perfil" wire:click="deleteAvatar" type="button"
+                            <button wire:confirm="Deseja realmente excluir sua foto de perfil" wire:click="deleteAvatar"
+                                type="button"
                                 class="py-2 px-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
                                 Excluir
                             </button>
@@ -109,7 +110,7 @@
                     </dd>
                 </dl>
             </div>
-            
+
             <div class="mb-6">
                 @if (session('permissionMessage'))
                     <div class="flex mb-2 text-sm text-blue-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-blue-400"
@@ -385,7 +386,6 @@
         <div
             class="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 relative">
             <div wire:loading.flex wire:target="changePassword"
-                
                 class="absolute rounded-lg w-full h-full inset-0 flex items-center justify-center">
                 <div role="status">
                     <svg aria-hidden="true"
@@ -848,7 +848,7 @@
                         </button>
                     </div>
                 </div>
-                
+
                 <div wire:loading.remove>
                     @if ($disputedReview)
                         <dl>

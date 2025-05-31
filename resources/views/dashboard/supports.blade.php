@@ -2,7 +2,7 @@
 <x-layouts.dashboard-layout page="support">
     <div class="p-4 md:ml-64 h-auto pt-20">
         @can('viewSupport')
-            <x-dashboard.navigation-info title="Tickets" :breadcrumbs="$breadcrumbs"></x-dashboard.navigation-info>
+            <x-dashboard.navigation-info title="Tickets de Suporte" :breadcrumbs="$breadcrumbs"></x-dashboard.navigation-info>
 
             <!-- Boxes Section -->
             <div class="grid grid-cols-1 xl:grid-cols-2 2xl:grid-cols-4 gap-4 mb-6">
@@ -17,7 +17,9 @@
                         </svg>
                     </div>
                     <div>
-                        <p class="text-lg font-semibold text-black dark:text-gray-200">86,759</p>
+                        <p class="text-lg font-semibold text-black dark:text-gray-200">
+                            {{App\Models\Support::count()}}
+                        </p>
                         <p class="text-lm font-medium text-gray-400">Tickets</p>
                     </div>
                 </div>
@@ -35,7 +37,9 @@
                         </svg>
                     </div>
                     <div>
-                        <p class="text-lg font-semibold text-black dark:text-gray-200">86,759</p>
+                        <p class="text-lg font-semibold text-black dark:text-gray-200">
+                            {{App\Models\Support::where('status', 'open')->count()}}
+                        </p>
                         <p class="text-lm font-medium text-gray-400">Abertos</p>
                     </div>
                 </div>
@@ -54,7 +58,9 @@
 
                     </div>
                     <div>
-                        <p class="text-lg font-semibold text-black dark:text-gray-200">86,759</p>
+                        <p class="text-lg font-semibold text-black dark:text-gray-200">
+                            {{App\Models\Support::where('status', 'in_progress')->count()}}
+                        </p>
                         <p class="text-lm font-medium text-gray-400">Em andamento</p>
                     </div>
                 </div>
@@ -72,7 +78,9 @@
 
                     </div>
                     <div>
-                        <p class="text-lg font-semibold text-black dark:text-gray-200">86,759</p>
+                        <p class="text-lg font-semibold text-black dark:text-gray-200">
+                            {{App\Models\Support::where('status', 'resolved')->count()}}
+                        </p>
                         <p class="text-lm font-medium text-gray-400">Resolvidos</p>
                     </div>
                 </div>

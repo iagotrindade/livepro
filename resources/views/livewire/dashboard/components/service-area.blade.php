@@ -6,7 +6,7 @@
                     <img class="w-16 h-16 rounded-full" src="{{ url('storage/' . $schedule->professional->avatar->file) }}"
                         alt="{{ $schedule->professional->avatar->name }}" />
                 @else
-                    <img class="rounded-full shadow-lg" src="/storage/assets/images/avatars/default_user_avatar.png"
+                    <img class="w-16 h-16 rounded-full shadow-lg" src="/storage/assets/images/avatars/default_user_avatar.png"
                         alt="Imagem do usuário" />
                 @endif
                 <div class="h-full">
@@ -24,7 +24,7 @@
                         </svg>
 
                         <p>
-                            {{ $schedule->professional->occupations[0]->name }}
+                            {{ $schedule->professional->occupations[0]->name ?? 'Nenhuma ocupação cadastrada' }}
                         </p>
                     </span>
                 </div>
@@ -70,7 +70,7 @@
                     <img class="w-16 h-16 rounded-full" src="{{ url('storage/' . $schedule->client->avatar->file) }}"
                         alt="{{ $schedule->client->avatar->name }}" />
                 @else
-                    <img class="rounded-full shadow-lg" src="/storage/assets/images/avatars/default_user_avatar.png"
+                    <img class="w-16 h-16 rounded-full shadow-lg" src="/storage/assets/images/avatars/default_user_avatar.png"
                         alt="Imagem do usuário" />
                 @endif
                 <div class="h-full">
