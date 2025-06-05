@@ -12,6 +12,8 @@ use Livewire\WithoutUrlPagination;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Notifications\ExportReadyNotification;
+use App\Notifications\SupportAssignNotification;
+use App\Services\AccessDetailsService;
 
 class SupportsTable extends Component
 {
@@ -94,5 +96,20 @@ class SupportsTable extends Component
     {
         $this->exportMessage = ExportService::export(SupportExport::class, 'Dados dos chamados de suporte');
         $this->dispatch('exportComplete');
+    }
+
+    public function assignSupport($supportId) {
+        $support = Support::findOrFail($supportId);
+
+        $support->update(['support_agent_id' => auth()->user()->id]);
+
+        // Atualiza o status do ticket para "Em Andamento"
+        $support->update(['status' => 'in_progress']);
+
+        if ($support->user->notificationPreferences &&  $support->user->notificationPreferences->new_messages) {
+            $support->user->notify(new SupportAssignNotification($support));
+        }
+        
+        return redirect()->route('dashboard.support', ['id' => $supportId]);
     }
 }

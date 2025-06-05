@@ -1,89 +1,79 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>LivePRO</title>
-        <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css" rel="stylesheet" />
-        @vite('resources/css/app.css')
-    </head>
 
-    <body>
-       
-        <section class="h-screen flex flex-col justify-center items-center">
-            <div class="w-full mx-auto xl:w-3/6 text-center bg-slate-50 border border-gray-200 rounded-lg shadow px-px-10 py-px-5 pb-5">
-                <div class="w-full flex justify-between items-center px-10 pt-5 pb-5 border-b-1">
-                    <p class="text-2xl text-black font-bold">LivePRO</p>
-                    <button type="button" class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-red-600 dark:hover:bg-red-700 focus:outline-none dark:focus:ring-blue-800">Seja PRO</button>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>LivePRO - Entrar</title>
+    <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css" rel="stylesheet" />
+    @vite('resources/css/app.css')
+</head>
+
+<body class="bg-gray-900 text-white flex items-center justify-center min-h-screen">
+    <div class="flex max-w-6xl bg-gray-800 rounded-lg shadow-lg overflow-hidden">
+        <!-- Left: Login form -->
+        <div class="w-full md:w-1/2 p-8 md:p-12">
+            <h2 class="text-2xl font-bold mb-2">Bem vindo (a) ao LivePRO</h2>
+            <p class="text-sm mb-6">Descubra centenas de profissionais a um clique de distância. Não possui uma conta?
+                <a href="{{ route("signup") }}" class="cursor-pointer text-blue-400 hover:underline">Cadastre-se.</a>
+            </p>
+
+            <form action="{{ route('signin.action') }}" method="POST" class="space-y-4">
+                @csrf
+                <div>
+                    <label for="email" class="block mb-1 text-sm">Email</label>
+                    <input type="email" id="email" name="email"
+                        class="border rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-transparent focus:outline-none"
+                        placeholder="nome@email.com" required>
                 </div>
 
-                <hr class="h-px">
-
-                <div class="flex flex-col justify-between items-start xl:flex-row xl:justify-center ">
-                    <div class="px-10 flex-1 mt-16">
-                        <h1 class="text-left text-2xl font-semibold mb-3">
-                            Bem Vindo ao LivePRO
-                        </h1>
-
-                        <p class="text-left text-black text-lg">
-                            Encontre o Profissional que você precisa sem sair do conforto da sua casa
-                        </p>
-
-                        <form class="flex flex-col" action="{{route('signin.action')}}" method="POST">
-                            @csrf
-                            <div class="flex flex-col justify-between items-center gap-0 xl:flex-row xl:gap-3">
-                                <div class="w-full">
-                                    <label for="default-input" class="block mb-2 text-sm font-medium text-start mt-5">Digite seu email</label>
-                                    <input type="text" id="email" name="email" class="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-2.5" placeholder="Ex: email@exemplo.com">
-                                </div>
-
-                                <div class="w-full">
-                                    <label for="default-input" class="block mb-2 text-sm font-medium text-start mt-5">Digite sua senha</label>
-                                    <input type="password" id="password" name="password" class="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-2.5" placeholder="********">
-                                </div>
-                            </div>
-
-                            <div class="flex justify-between items-center mt-6 gap-3">
-                                <div class="h-px w-full bg-red-700"></div>
-                                    ou
-                                <div class="h-px w-full bg-red-700"></div>
-                            </div>
-
-                            <div class="w-full bg-gray-200 p-2.5 mt-5 rounded-lg cursor-pointer flex justify-center hover:bg-gray-300 text-gray-500 hover:text-red-700">
-                                <svg class="w-6 h-6 me-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-                                    <path fill-rule="evenodd" d="M12.037 21.998a10.313 10.313 0 0 1-7.168-3.049 9.888 9.888 0 0 1-2.868-7.118 9.947 9.947 0 0 1 3.064-6.949A10.37 10.37 0 0 1 12.212 2h.176a9.935 9.935 0 0 1 6.614 2.564L16.457 6.88a6.187 6.187 0 0 0-4.131-1.566 6.9 6.9 0 0 0-4.794 1.913 6.618 6.618 0 0 0-2.045 4.657 6.608 6.608 0 0 0 1.882 4.723 6.891 6.891 0 0 0 4.725 2.07h.143c1.41.072 2.8-.354 3.917-1.2a5.77 5.77 0 0 0 2.172-3.41l.043-.117H12.22v-3.41h9.678c.075.617.109 1.238.1 1.859-.099 5.741-4.017 9.6-9.746 9.6l-.215-.002Z" clip-rule="evenodd"/>
-                                </svg>
-                                  
-                                <a href="{{ route('google.login') }}">Continue com o Google</a>
-                            </div>
-
-                            <div class="w-full flex justify-between mt-6">
-                                <div class="flex justify-start items-center">
-                                    <input type="checkbox" id="remember_token" name="remember_token" class="bg-gray-50 border border-gray-300 text-red-700 text-sm rounded-md focus:ring-red-500 focus:border-red-500  p-2.5 me-2">
-                                    <label for="remember" class=" text-sm font-medium text-start">Lembrar de mim</label>
-                                </div>
-                                
-                                <a class="text-red-700 font-semibold hover:underline" href="">Esqueceu sua senha?</a>
-                            </div>
-
-                            <button type="submit" class="w-full bg-red-700 text-white p-2.5 mt-5 rounded-lg hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium">Login</button>
-                        </form>
-                    </div>
-                       
-                    <div class="flex-1 mt-5">
-                        <div class="relative mx-auto border-black  bg-black border-[14px] rounded-[2.5rem] h-[600px] w-[300px]">
-                            <div class="h-[32px] w-[3px] bg-black absolute -start-[17px] top-[72px] rounded-s-lg"></div>
-                            <div class="h-[46px] w-[3px] bg-black absolute -start-[17px] top-[124px] rounded-s-lg"></div>
-                            <div class="h-[46px] w-[3px] bg-black absolute -start-[17px] top-[178px] rounded-s-lg"></div>
-                            <div class="h-[64px] w-[3px] bg-black absolute -end-[17px] top-[142px] rounded-e-lg"></div>
-                            <div class="rounded-[2rem] overflow-hidden w-[272px] h-[572px] bg-white dark:bg-red-700">
-                                <img src="{{url('storage/assets/images/login_image.png')}}" alt="">
-                            </div>
-                        </div>
-                    </div>
+                <div>
+                    <label for="password" class="block mb-1 text-sm">Senha</label>
+                    <input type="password" id="password" name="password" placeholder="********"
+                        class="border rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-transparent focus:outline-none"
+                        required>
                 </div>
+
+                <div class="flex items-center justify-between text-sm">
+                    <label class="flex items-center">
+                        <input type="checkbox" name="remember" class="mr-2">
+                        Lembrar-me
+                    </label>
+                    <a href="{{ route('password.reset.form') }}" class="text-blue-400 hover:underline">Esqueceu a
+                        senha?</a>
+                </div>
+
+                <button type="submit"
+                    class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-md transition duration-200">
+                    Entrar na sua conta
+                </button>
+            </form>
+
+            <div class="my-6 flex items-center justify-center">
+                <span class="w-full border-t border-gray-600"></span>
+                <span class="px-2 text-sm text-gray-400">ou</span>
+                <span class="w-full border-t border-gray-600"></span>
             </div>
-        </section>
-        <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
-    </body>
+
+            <div class="space-y-3">
+                <a href="{{ route('google.login') }}"
+                    class="w-full flex items-center justify-center border border-gray-600 rounded-md px-4 py-2 hover:bg-gray-700">
+                    <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" class="w-5 h-5 mr-2">
+                    Entrar com o Google
+                </a>
+                <button
+                    class="w-full flex items-center justify-center border border-gray-600 rounded-md px-4 py-2 hover:bg-gray-700">
+                    <img src="{{ url('storage/assets/images/apple_icon.png') }}" alt="Google" class="w-5 h-5 mr-2">
+                    Entrar com a Apple
+                </button>
+            </div>
+        </div>
+
+        <!-- Right: Illustration -->
+        <div class="md:flex md:w-1/2 items-center justify-center bg-gray-900 p-4">
+            <img src="{{ url('storage/assets/images/login_image.svg') }}" alt="Illustration" class="w-3/4 h-auto">
+        </div>
+    </div>
+</body>
+
 </html>

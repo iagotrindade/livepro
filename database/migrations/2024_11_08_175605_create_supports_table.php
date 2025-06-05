@@ -16,13 +16,15 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained();
             $table->foreignId('support_agent_id')->constrained(
                 table: 'users', indexName: 'support_agent_id_in_supports'
-            );
+            )->nullable();
             $table->foreignId('support_categories_id')->constrained();
             $table->string('subject');
             $table->string('protocol');
             $table->enum('priority', ['low', 'medium', 'high']);
             $table->enum('status', ['open', 'in_progress', 'resolved', 'closed']);
             $table->string('resolution')->nullable();
+            $table->string('user_files')->nullable();
+            $table->string('support_files')->nullable();
             $table->timestamps();
             $table->dateTime('closed_at')->nullable();   
         });

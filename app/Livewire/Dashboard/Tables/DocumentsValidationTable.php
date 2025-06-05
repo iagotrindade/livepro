@@ -12,21 +12,23 @@ use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\DocumentValidationExport;
 use App\Notifications\ExportReadyNotification;
+use App\Notifications\DocValidationAssignNotification;
 
 class DocumentsValidationTable extends Component
 {
     use WithPagination, WithoutUrlPagination;
 
-    public $searchTerm = '';      
-    public $totalAmount;          
-    public $statusFilters = [];   
-    public $startDate = null;     
-    public $endDate = null;     
-    public $exportMessage = '';  
+    public $searchTerm = '';
+    public $totalAmount;
+    public $statusFilters = [];
+    public $startDate = null;
+    public $endDate = null;
+    public $exportMessage = '';
     public function render()
     {
         // Inicializa a query básica
-        $query = DocumentValidation::with('professionalDocument.user');
+        $query = DocumentValidation::whereHas('professionalDocument.user')
+            ->with('professionalDocument.user');
 
         // Aplica o termo de busca, se existir
         if (!empty($this->searchTerm)) {
@@ -94,5 +96,20 @@ class DocumentsValidationTable extends Component
     {
         $this->exportMessage = ExportService::export(DocumentValidationExport::class, 'Dados da validação de documentos');
         $this->dispatch('exportComplete');
+    }
+
+    public function assignValidation($id, $professionalId) {
+        $document = DocumentValidation::findOrFail($id);
+
+        $document->update(['support_agent_id' => auth()->user()->id]);
+
+        // Atualiza o status do ticket para "Em Andamento"
+        $document->update(['status' => 'in_progress']);
+
+        if ($document->professionalDocument->user->notificationPreferences &&  $document->professionalDocument->user->notificationPreferences->new_messages) {
+            $document->professionalDocument->user->notify(new DocValidationAssignNotification($document));
+        }
+        
+        return redirect()->route('dashboard.doc.validation', ['id' => $professionalId]);
     }
 }

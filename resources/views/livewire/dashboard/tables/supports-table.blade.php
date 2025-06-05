@@ -254,10 +254,17 @@
                                         </span>
                                     </td>
                                     <td class="px-4 py-2 font-medium">
-                                        <a href=""
-                                            class="text-dark text-sm font-medium rounded-md  dark:text-white min-w-['84px'] hover:underline">
-                                            Visualizar
-                                        </a>
+                                        @if ($support->status->getName() == 'Aberto')
+                                            <span wire:click="assignSupport({{ $support->id }})"
+                                                class="bg-green-400 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-md border dark:bg-green-700 text-white cursor-pointer hover:underline">
+                                                Atribuir-me
+                                            </span>
+                                        @else
+                                            <a href="{{ route('dashboard.support', $support->id) }}"
+                                                class="text-dark text-sm font-medium rounded-md  dark:text-white min-w-['84px'] hover:underline">
+                                                Visualizar
+                                            </a>
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach

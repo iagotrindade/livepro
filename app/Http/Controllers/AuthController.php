@@ -23,12 +23,41 @@ class AuthController extends Controller
 {
     public function showRegistrationForm()
     {
-        // PÁGINA DE CADASTRO
+        // RETORNA A VIEW DE REGISTRO
+        return view('auth.signup');
     }
 
     public function processRegistration(Request $request)
     {
-        // AÇÃO DE CADASTRO
+        // VALIDA O FORMULÁRIO DE REGISTRO
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'email', 'unique:users,email'],
+            'phone' => ['nullable', 'string', 'max:15'],
+            'password' => ['required', 'min:8', 'confirmed'],
+        ]);
+
+        // CRIA O USUÁRIO NO BANCO DE DADOS
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'password' => Hash::make($request->password),
+            'status' => 'active',
+        ]);
+
+        // ATRIBUI O PAPEL DE CLIENTE AO USUÁRIO
+        $user->assignRole(Role::findByName('Cliente'));
+
+        // LOGA O USUÁRIO APÓS O REGISTRO
+        Auth::login($user);
+
+        // GERA OS DETALHES DO ACESSO E ENVIA NOTIFICAÇÃO VIA EMAIL
+        $accessDetails =  AccessDetailsService::generateAccessDetails($request);
+        $user->notify(new AccountAcessNotification($user, $accessDetails));
+
+        // REDIRECIONA PARA A PÁGINA INICIAL OU DASHBOARD
+        return redirect($user->hasRole('Cliente') || $user->hasRole('Professional') ? 'home' : 'dashboard');
     }
 
     public function authenticateUser(Request $request)
@@ -73,7 +102,6 @@ class AuthController extends Controller
             $user->notify(new SendAccessTokenNotification($accessToken, $user->name, $accessDetails));
 
             // REDIRECIONAR PARA CONFIRMAÇÃO DE LOGIN
-            Auth::attempt(['email' => $request->email, 'password' => $request->password]);
             return redirect(route('confirm.signin'));
         } else {
             return back()->withErrors(['email' => 'E-mail ou senha inválidos']);
@@ -103,12 +131,11 @@ class AuthController extends Controller
         ]);
 
         // COMPILA O ACCESSTOKEN
-        /*$accessToken = '';
+        $accessToken = '';
+
         foreach ($request->numbers as $number) {
             $accessToken =  $accessToken . $number;
-        }*/
-
-        $accessToken = $request->token;
+        }
 
         // RECUPERA O USUÁRIO A PARTIR DO COOKIE E SEU ÚLTIMO TOKEN DE ACESSO GERADO
         $user = User::where('email', $request->cookie('auth_email'))->first();
@@ -124,7 +151,7 @@ class AuthController extends Controller
             $accessDetails =  AccessDetailsService::generateAccessDetails($request);
             $user->notify(new AccountAcessNotification($user, $accessDetails));
 
-            return redirect($user->role === 'client' || $user->role === 'professional' ? 'home' : 'dashboard');
+            return redirect($user->hasRole('Cliente') || $user->hasRole('Profissional') ? 'home' : 'dashboard');
         }
 
         return redirect(route('confirm.signin'))->withErrors(['code' => 'Código incorreto ou expirado']);
@@ -161,7 +188,7 @@ class AuthController extends Controller
             // MANDA O USUÁRIO PARA ALTERAR A SENHA, PARA HOME OU PARA O DASHBOARD
             return !$localUser->password 
                 ? redirect(route('create.first.password')) 
-                : redirect($localUser->role === 'client' || $localUser->role === 'professional' ? 'home' : 'dashboard');
+                : redirect($localUser->hasRole('Cliente') || $localUser->hasRole('Profissional') ? 'home' : 'dashboard');
 
         } catch (\Exception $e) {
             // EM CASO DE ERRO RETORNA A PÁGINA DE LOGIN
@@ -172,6 +199,26 @@ class AuthController extends Controller
     public function createFirstPassword()
     {
         return view('auth.create-first-password');
+    }
+
+    public function createFirstPasswordAction(Request $request)
+    {
+        // AÇÃO DE CRIAR A PRIMEIRA SENHA
+        $request->validate([
+            'password' => 'required|min:8|confirmed',
+        ]);
+
+        $user = Auth::user();
+        $user->password = Hash::make($request->password);
+        $status = $user->save();
+
+        if($status) {
+            // SE A SENHA FOR CRIADA COM SUCESSO, REDIRECIONA PARA O LOGIN
+            return redirect($user->hasRole('Cliente') || $user->hasRole('Profissional') ? 'home' : 'dashboard');
+        }
+        
+        // SE NÃO FOR CRIADA, RETORNA UM ERRO
+        return back()->withErrors(['password' => 'Erro ao criar a senha. Tente novamente.']);
     }
 
     public function showPasswordResetForm()

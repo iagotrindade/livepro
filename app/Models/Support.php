@@ -13,6 +13,20 @@ class Support extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'user_id',
+        'support_agent_id',
+        'support_categories_id',
+        'subject',
+        'protocol',
+        'priority',
+        'status',
+        'resolution',
+        'user_files',
+        'support_files',
+        'closed_at'
+    ];
+
     protected $casts = [
         'status' => SupportStatus::class,
         'priority' => SupportPriority::class

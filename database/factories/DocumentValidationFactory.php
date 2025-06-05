@@ -22,7 +22,7 @@ class DocumentValidationFactory extends Factory
             'protocol' => fake()->uuid(),
             'professional_documents_id' => ProfessionalDocument::all()->random(),
             'support_agent_id' => User::all()->random(),
-            'status' => fake()->randomElement(['validated', 'invalidated', 'pending', 'on_appeal'])
+            'status' => fake()->randomElement(['validated', 'invalidated', 'pending', 'on_appeal', 'in_progress']),
         ];
     }
 }

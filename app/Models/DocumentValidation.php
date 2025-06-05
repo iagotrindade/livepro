@@ -11,9 +11,18 @@ class DocumentValidation extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'protocol',
+        'professional_documents_id',
+        'support_agent_id',
+        'status',
+        'justification',
+    ];
+
     protected $casts = [
         'status' => DocumentValidationStatus::class,
     ];
+
     public function professionalDocument(): BelongsTo {
         return $this->belongsTo(ProfessionalDocument::class, 'professional_documents_id', 'id',);
     }

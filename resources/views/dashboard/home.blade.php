@@ -54,6 +54,10 @@
             </div>
 
             <div class="rounded-lg border-gray-300 dark:border-gray-600 h-48 md:h-full mb-4">
+                @livewire('dashboard.tables.documents-table')
+            </div>
+
+            <div class="rounded-lg border-gray-300 dark:border-gray-600 h-48 md:h-full mb-4">
                 @livewire('dashboard.tables.documents-validation-table')
             </div>
         @endcan

@@ -29,8 +29,6 @@ Route::middleware(['guest'])->group(function () {
         Route::post('/registrar/acao', 'processRegistration')->name('signup.action');
 
         // RECUPERAR E ALTERAR SENHA
-        Route::get('/primeira/senha', 'choseFirstPassword')->name('chose.first.password');
-
         Route::get('/recuperar/senha', 'showPasswordResetForm')->name('password.reset.form');
         Route::post('/recuperar/senha/acao', 'sendPasswordResetLink')->name('send.reset.password');
 
@@ -39,7 +37,7 @@ Route::middleware(['guest'])->group(function () {
     });
 });
 
-// ROTAS DO PÚBLICAS DO SITE 
+// ROTAS PÚBLICAS DO SITE 
 Route::get('/home', [SiteController::class, 'index'])->name('home');
 
 
@@ -47,6 +45,10 @@ Route::get('/home', [SiteController::class, 'index'])->name('home');
 Route::middleware(['auth'])->group(function () {
     // SITE -> HOME
     Route::controller(HomeController::class)->group(function () {});
+
+    // SITE -> SUPPORT
+
+    Route::view('/suporte/{id}', 'site.support')->name('site.support');
 
     // DASHBOARD -> HOME
     Route::view('/dashboard', 'dashboard.home')->name('dashboard');
@@ -97,12 +99,30 @@ Route::middleware(['auth'])->group(function () {
         ]])->name('dashboard.top.users');
     });
 
+    //DASHBOARD -> DOCUMENTS
+    Route::middleware(['can:viewDocs'])->group(function () {
+        Route::view('/dashboard/documentos', 'dashboard.docs', ['breadcrumbs' => [
+            ['label' => 'Dashboard', 'url' => url('dashboard')],
+            ['label' => 'Documentos dos Profissionais', 'url' => url('dashboard/documentos')],
+        ]])->name('dashboard.docs');
+
+         Route::view('/dashboard/documentos/{id}', 'dashboard.doc_validation', ['breadcrumbs' => [
+            ['label' => 'Dashboard', 'url' => url('dashboard')],
+            ['label' => 'Documentos dos Profissionais', 'url' => url('dashboard/documentos/{id}')],
+        ]])->name('dashboard.doc.validation');
+    });
+
     //DASHBOARD -> SUPPORT
     Route::middleware(['can:viewSupport'])->group(function () {
         Route::view('/dashboard/suporte', 'dashboard.supports', ['breadcrumbs' => [
             ['label' => 'Dashboard', 'url' => url('dashboard')],
             ['label' => 'Suporte', 'url' => url('dashboard/suporte')],
         ]])->name('dashboard.supports');
+
+        Route::view('/dashboard/suporte/{id}', 'dashboard.support', ['breadcrumbs' => [
+            ['label' => 'Dashboard', 'url' => url('dashboard')],
+            ['label' => 'Suporte', 'url' => url('dashboard/suporte/{id}')],
+        ]])->name('dashboard.support');
     });
 
     //DASHBOARD -> REPORTS -> SALES
@@ -131,7 +151,12 @@ Route::middleware(['auth'])->group(function () {
 
     // LOGOUT
     Route::controller(AuthController::class)->group(function () {
+        // CRIAR PRIMEIRA SENHA
         Route::get('criar/primeira/senha', 'createFirstPassword')->name('create.first.password');
+
+        Route::post('criar/primeira/senha/acao', 'createFirstPasswordAction')->name('create.first.password.action');
+
+        // LOGOUT
         Route::get('/sair', 'logout')->name('logout');
     });
 });

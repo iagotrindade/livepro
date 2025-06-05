@@ -301,7 +301,6 @@
                                                             </button>
                                                         @endif
                                                     @endcan
-
                                                 </td>
                                             </tr>
                                         @endforeach

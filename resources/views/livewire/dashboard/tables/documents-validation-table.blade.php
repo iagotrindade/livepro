@@ -4,7 +4,7 @@
         <div class="mb-4 lg:mb-0">
             <h3 class="mb-2 text-xl font-bold text-gray-900 dark:text-white">Validação de documentos</h3>
             <span class="text-base font-normal text-gray-500 dark:text-gray-400">Total de documentos para validar:
-                1145</span>
+                {{ App\Models\DocumentValidation::where('status', 'pending')->count() }}</span>
         </div>
         <div class="items-center sm:flex">
             <div class="flex items-center">
@@ -147,8 +147,8 @@
                         <svg class="w-5 h-5 mr-2 -ml-1" fill="currentColor" viewBox="0 0 20 20"
                             xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd"
-                            d="M6 2a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V7.414A2 2 0 0015.414 6L12 2.586A2 2 0 0010.586 2H6zm5 6a1 1 0 10-2 0v3.586l-1.293-1.293a1 1 0 10-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 11.586V8z"
-                            clip-rule="evenodd"></path>
+                                d="M6 2a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V7.414A2 2 0 0015.414 6L12 2.586A2 2 0 0010.586 2H6zm5 6a1 1 0 10-2 0v3.586l-1.293-1.293a1 1 0 10-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 11.586V8z"
+                                clip-rule="evenodd"></path>
                         </svg>
                         Exportar
                     </button>
@@ -207,7 +207,7 @@
                                         @if (optional($validation->professionalDocument->user)->avatar)
                                             <img class="w-8 h-8 rounded-full mr-3"
                                                 src="{{ url('storage/' . $validation->professionalDocument->user->avatar->file) }}"
-                                                alt="{{ optional($validation->professionalDocument->user)->name }}" />
+                                                alt="{{ optional($validation->professionalDocument->user)->name ?? '' }}" />
                                         @else
                                             <svg class="bg-white text-gray-500 w-7 h-7 mr-3 dark:bg-gray-300 rounded-full"
                                                 aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
@@ -238,10 +238,17 @@
                                         </span>
                                     </td>
                                     <td class="px-4 py-2 font-medium">
-                                        <a href=""
-                                            class="text-dark text-sm font-medium rounded-md  dark:text-white min-w-['84px'] hover:underline">
-                                            Visualizar
-                                        </a>
+                                        @if ($validation->status->getName() == 'Pendente')
+                                            <span wire:click="assignValidation({{ $validation->id, $validation->professionalDocument->user_id }})"
+                                                class="bg-green-400 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-md border dark:bg-green-700 text-white cursor-pointer hover:underline">
+                                                Atribuir-me
+                                            </span>
+                                        @else
+                                            <a href="{{ route('dashboard.doc.validation', $validation->professionalDocument->user_id) }}"
+                                                class="text-dark text-sm font-medium rounded-md  dark:text-white min-w-['84px'] hover:underline">
+                                                Visualizar
+                                            </a>
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach

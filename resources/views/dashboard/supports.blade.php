@@ -1,4 +1,3 @@
-<!-- filepath: c:\laragon\www\livepro\resources\views\dashboard\supports.blade.php -->
 <x-layouts.dashboard-layout page="support">
     <div class="p-4 md:ml-64 h-auto pt-20">
         @can('viewSupport')

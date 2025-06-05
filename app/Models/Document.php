@@ -10,7 +10,19 @@ class Document extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'name',
+        'type',
+        'is_mandatory',
+        'description',
+    ];
+
     protected $casts = [
         'type' => DocumentType::class,
     ];
+
+    public function professionalDocuments()
+    {
+        return $this->hasMany(ProfessionalDocument::class);
+    }
 }

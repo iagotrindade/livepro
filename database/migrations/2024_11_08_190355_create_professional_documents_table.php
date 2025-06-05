@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('professional_documents', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('document_id')->constrained();
+            $table->foreignId('document_id')->constrained()->onDelete('cascade');
             $table->foreignId('user_id')->constrained();
             $table->string('folder_path');
             $table->timestamps();

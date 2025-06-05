@@ -8,11 +8,6 @@ use App\Models\Schedule;
 use Livewire\WithPagination;
 use App\Exports\ServiceExport;
 use Livewire\WithoutUrlPagination;
-use Illuminate\Support\Facades\Auth;
-use Maatwebsite\Excel\Facades\Excel;
-use Illuminate\Support\Facades\Notification;
-use App\Notifications\ExportReadyNotification;
-use App\Models\User;
 use App\Services\ExportService;
 
 class ServicesTable extends Component
