@@ -3,15 +3,14 @@
 namespace App\Livewire\Dashboard\Tables;
 
 use Carbon\Carbon;
+use App\Models\User;
 use Livewire\Component;
 use Livewire\WithPagination;
 use App\Services\ExportService;
 use App\Models\DocumentValidation;
 use Livewire\WithoutUrlPagination;
-use Illuminate\Support\Facades\Auth;
-use Maatwebsite\Excel\Facades\Excel;
+use App\Models\ProfessionalDocument;
 use App\Exports\DocumentValidationExport;
-use App\Notifications\ExportReadyNotification;
 use App\Notifications\DocValidationAssignNotification;
 
 class DocumentsValidationTable extends Component
@@ -98,16 +97,21 @@ class DocumentsValidationTable extends Component
         $this->dispatch('exportComplete');
     }
 
-    public function assignValidation($id, $professionalId) {
-        $document = DocumentValidation::findOrFail($id);
+    public function assignValidation($professionalId) {
+        $professional = User::findOrFail($professionalId);
 
-        $document->update(['support_agent_id' => auth()->user()->id]);
+        $documents = ProfessionalDocument::where('user_id', $professionalId)->get();
 
-        // Atualiza o status do ticket para "Em Andamento"
-        $document->update(['status' => 'in_progress']);
+        foreach ($documents as $document) {
+            // Atribui o agente de suporte ao documento
+            $document->documentValidation->update(['support_agent_id' => auth()->user()->id]);
 
-        if ($document->professionalDocument->user->notificationPreferences &&  $document->professionalDocument->user->notificationPreferences->new_messages) {
-            $document->professionalDocument->user->notify(new DocValidationAssignNotification($document));
+            // Atualiza o status do documento para "Em Andamento"
+            $document->documentValidation->update(['status' => 'in_progress']);
+        }
+
+        if ($professional->notificationPreferences && $professional->notificationPreferences->new_messages) {
+            $professional->notify(new DocValidationAssignNotification($professional));
         }
         
         return redirect()->route('dashboard.doc.validation', ['id' => $professionalId]);

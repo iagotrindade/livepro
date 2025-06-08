@@ -122,7 +122,7 @@
                         </svg>
                         <span class="sr-only">Atenção</span>
 
-                        <span class="font-medium"> {{ session('permissionMessage') }}</span>
+                        <span class="font-medium"> {{ session('permissionMessage') }} </span>
                     </div>
                 @endif
                 <label for="role" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
@@ -227,7 +227,7 @@
                                 Atividade da conta
                             </div>
                             <div class="text-base font-normal text-gray-500 dark:text-gray-400">Receba
-                                informações importanes sobre alterações e acessos em sua conta</div>
+                                informações importantes sobre alterações e acessos em sua conta</div>
                         </div>
                         <label for="account-activity" class="relative flex items-center cursor-pointer">
                             <input wire:change="changeNotificationPreferences('account_activity')" type="checkbox"

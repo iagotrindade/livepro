@@ -64,7 +64,7 @@ class SupportAnsweredNotification extends Notification implements ShouldQueue
 
             'body' => 'Informamos que sua solicitação foi respondida por um de nossos Agentes de Suporte LivePRO! Acesse seus tickets para visualizar a resposta.',
 
-            'link' => url('/support/' . $this->support->id),
+            'link' => url('/suporte/' . $this->support->id),
         ];
     }
 }

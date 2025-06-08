@@ -55,24 +55,6 @@
                 </li>
             @endcan
 
-            @can('viewSupport')
-                <li>
-                    <a href="{{ route('dashboard.supports') }}"
-                        class="flex items-center p-2 text-base font-medium {{ $page == 'support' ? 'text-black dark:text-white' : 'text-gray-500' }} hover:bg-gray-100 hover:text-black dark:hover:text-white dark:hover:bg-gray-700 group rounded-lg">
-
-                        <svg class="flex-shrink-0 w-6 h-6 {{ $page == 'support' ? 'text-black dark:text-white' : 'text-gray-500' }} transition duration-75 group-hover:text-gray-900 dark:group-hover:text-white"
-                            aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                            fill="currentColor" viewBox="0 0 24 24">
-                            <path fill-rule="evenodd"
-                                d="M12 2a7 7 0 0 0-7 7 3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h1a1 1 0 0 0 1-1V9a5 5 0 1 1 10 0v7.083A2.919 2.919 0 0 1 14.083 19H14a2 2 0 0 0-2-2h-1a2 2 0 0 0-2 2v1a2 2 0 0 0 2 2h1a2 2 0 0 0 1.732-1h.351a4.917 4.917 0 0 0 4.83-4H19a3 3 0 0 0 3-3v-2a3 3 0 0 0-3-3 7 7 0 0 0-7-7Zm1.45 3.275a4 4 0 0 0-4.352.976 1 1 0 0 0 1.452 1.376 2.001 2.001 0 0 1 2.836-.067 1 1 0 1 0 1.386-1.442 4 4 0 0 0-1.321-.843Z"
-                                clip-rule="evenodd" />
-                        </svg>
-
-                        <span class="ml-3">Suporte</span>
-                    </a>
-                </li>
-            @endcan
-
             @can('viewDocs')
                 <li>
                     <a href="{{ route('dashboard.docs') }}"
@@ -88,6 +70,42 @@
 
 
                         <span class="ml-3">Documentos</span>
+                    </a>
+                </li>
+            @endcan
+
+            @can('viewMarketing')
+                <li>
+                    <a href="{{ route('dashboard.newsletter') }}"
+                        class="flex items-center p-2 text-base font-medium {{ $page == 'newsletter' ? 'text-black dark:text-white' : 'text-gray-500' }} hover:bg-gray-100 hover:text-black dark:hover:text-white dark:hover:bg-gray-700 group rounded-lg">
+
+                        <svg class="flex-shrink-0 w-6 h-6 {{ $page == 'newsletter' ? 'text-black dark:text-white' : 'text-gray-500' }} transition duration-75 group-hover:text-gray-900 dark:group-hover:text-white"
+                            aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                            fill="currentColor" viewBox="0 0 24 24">
+                            <path fill-rule="evenodd"
+                                d="M5 3a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h11.5c.07 0 .14-.007.207-.021.095.014.193.021.293.021h2a2 2 0 0 0 2-2V7a1 1 0 0 0-1-1h-1a1 1 0 1 0 0 2v11h-2V5a2 2 0 0 0-2-2H5Zm7 4a1 1 0 0 1 1-1h.5a1 1 0 1 1 0 2H13a1 1 0 0 1-1-1Zm0 3a1 1 0 0 1 1-1h.5a1 1 0 1 1 0 2H13a1 1 0 0 1-1-1Zm-6 4a1 1 0 0 1 1-1h6a1 1 0 1 1 0 2H7a1 1 0 0 1-1-1Zm0 3a1 1 0 0 1 1-1h6a1 1 0 1 1 0 2H7a1 1 0 0 1-1-1ZM7 6a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1H7Zm1 3V8h1v1H8Z"
+                                clip-rule="evenodd" />
+                        </svg>
+
+                        <span class="ml-3">NewsLetter</span>
+                    </a>
+                </li>
+            @endcan
+
+            @can('viewSupport')
+                <li>
+                    <a href="{{ route('dashboard.supports') }}"
+                        class="flex items-center p-2 text-base font-medium {{ $page == 'support' ? 'text-black dark:text-white' : 'text-gray-500' }} hover:bg-gray-100 hover:text-black dark:hover:text-white dark:hover:bg-gray-700 group rounded-lg">
+
+                        <svg class="flex-shrink-0 w-6 h-6 {{ $page == 'support' ? 'text-black dark:text-white' : 'text-gray-500' }} transition duration-75 group-hover:text-gray-900 dark:group-hover:text-white"
+                            aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                            fill="currentColor" viewBox="0 0 24 24">
+                            <path fill-rule="evenodd"
+                                d="M12 2a7 7 0 0 0-7 7 3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h1a1 1 0 0 0 1-1V9a5 5 0 1 1 10 0v7.083A2.919 2.919 0 0 1 14.083 19H14a2 2 0 0 0-2-2h-1a2 2 0 0 0-2 2v1a2 2 0 0 0 2 2h1a2 2 0 0 0 1.732-1h.351a4.917 4.917 0 0 0 4.83-4H19a3 3 0 0 0 3-3v-2a3 3 0 0 0-3-3 7 7 0 0 0-7-7Zm1.45 3.275a4 4 0 0 0-4.352.976 1 1 0 0 0 1.452 1.376 2.001 2.001 0 0 1 2.836-.067 1 1 0 1 0 1.386-1.442 4 4 0 0 0-1.321-.843Z"
+                                clip-rule="evenodd" />
+                        </svg>
+
+                        <span class="ml-3">Suporte</span>
                     </a>
                 </li>
             @endcan

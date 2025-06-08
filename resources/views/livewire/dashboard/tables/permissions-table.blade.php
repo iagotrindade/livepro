@@ -1,5 +1,5 @@
 <div>
-    <div class="w-full rounded-lg shadow-sm dark:border-gray-700 sm:p-6 dark:bg-gray-800">
+    <div class="min-h-screen w-full rounded-lg shadow-sm dark:border-gray-700 sm:p-6 dark:bg-gray-800">
         <!-- Card header -->
         <div class="items-center justify-between lg:flex">
             <div class="mb-4 lg:mb-0">

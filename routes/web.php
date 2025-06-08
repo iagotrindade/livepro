@@ -47,8 +47,11 @@ Route::middleware(['auth'])->group(function () {
     Route::controller(HomeController::class)->group(function () {});
 
     // SITE -> SUPPORT
-
     Route::view('/suporte/{id}', 'site.support')->name('site.support');
+
+    // SITE -> DOCUMENTS
+    Route::view('/documentos', 'site.documents')->name('site.documents');
+
 
     // DASHBOARD -> HOME
     Route::view('/dashboard', 'dashboard.home')->name('dashboard');
@@ -58,32 +61,6 @@ Route::middleware(['auth'])->group(function () {
         ['label' => 'Dashboard', 'url' => url('dashboard')],
         ['label' => 'Notificações', 'url' => url('notificacoes')],
     ]])->name('notifications');
-
-    // DASHBOARD -> USERS
-    Route::middleware(['can:viewUsers'])->group(function () {
-        Route::view('/dashboard/usuarios', 'dashboard.users', ['breadcrumbs' => [
-            ['label' => 'Dashboard', 'url' => url('dashboard')],
-            ['label' => 'Usuários', 'url' => url('usuarios')],
-        ]])->name('users');
-
-        Route::view('usuario', 'user')->name('user');
-    });
-
-    // DASHBOARD -> PERMISSIONS
-    Route::middleware(['can:viewPermissions'])->group(function () {
-        Route::view('/dashboard/permissoes', 'dashboard.permissions', ['breadcrumbs' => [
-            ['label' => 'Dashboard', 'url' => url('dashboard')],
-            ['label' => 'Permissões', 'url' => url('permissoes')],
-        ]])->name('permissions');
-    });
-
-    //DASHBOARD -> AUDIT LOGS
-    Route::middleware(['can:viewPermissions'])->group(function () {
-        Route::view('/dashboard/auditora', 'dashboard.audit', ['breadcrumbs' => [
-            ['label' => 'Dashboard', 'url' => url('dashboard')],
-            ['label' => 'Auditoria', 'url' => url('auditoria')],
-        ]])->name('audit');
-    });
 
     //DASHBOARD -> PROFILE
     Route::view('/dashboard/perfil', 'dashboard.profile', ['breadcrumbs' => [
@@ -106,10 +83,18 @@ Route::middleware(['auth'])->group(function () {
             ['label' => 'Documentos dos Profissionais', 'url' => url('dashboard/documentos')],
         ]])->name('dashboard.docs');
 
-         Route::view('/dashboard/documentos/{id}', 'dashboard.doc_validation', ['breadcrumbs' => [
+        Route::view('/dashboard/documentos/{id}', 'dashboard.doc_validation', ['breadcrumbs' => [
             ['label' => 'Dashboard', 'url' => url('dashboard')],
             ['label' => 'Documentos dos Profissionais', 'url' => url('dashboard/documentos/{id}')],
         ]])->name('dashboard.doc.validation');
+    });
+
+    //DASHBOARD -> NEWSLETTER
+    Route::middleware(['can:viewMarketing'])->group(function () {
+        Route::view('/dashboard/newsletter', 'dashboard.newsletter', ['breadcrumbs' => [
+            ['label' => 'Dashboard', 'url' => url('dashboard')],
+            ['label' => 'Newsletter', 'url' => url('dashboard/newsletter')],
+        ]])->name('dashboard.newsletter');
     });
 
     //DASHBOARD -> SUPPORT
@@ -125,6 +110,16 @@ Route::middleware(['auth'])->group(function () {
         ]])->name('dashboard.support');
     });
 
+    // DASHBOARD -> USERS
+    Route::middleware(['can:viewUsers'])->group(function () {
+        Route::view('/dashboard/usuarios', 'dashboard.users', ['breadcrumbs' => [
+            ['label' => 'Dashboard', 'url' => url('dashboard')],
+            ['label' => 'Usuários', 'url' => url('usuarios')],
+        ]])->name('users');
+
+        Route::view('usuario', 'user')->name('user');
+    });
+
     //DASHBOARD -> REPORTS -> SALES
     Route::middleware(['can:viewFinancial'])->group(function () {
         Route::view('/dashboard/relatorios/vendas', 'dashboard.reports.sales', ['breadcrumbs' => [
@@ -134,6 +129,7 @@ Route::middleware(['auth'])->group(function () {
         ]])->name('dashboard.reports.sales');
     });
 
+
     //DASHBOARD -> REPORTS -> DOCUMENTS
     Route::middleware(['can:viewDocs'])->group(function () {
         Route::view('/dashboard/relatorios/documentos', 'dashboard.reports.docs-validation', ['breadcrumbs' => [
@@ -142,6 +138,24 @@ Route::middleware(['auth'])->group(function () {
             ['label' => 'Avaliação de documentos', 'url' => url('dashboard/relatorios/documentos')],
         ]])->name('dashboard.reports.documents');
     });
+
+    // DASHBOARD -> PERMISSIONS
+    Route::middleware(['can:viewPermissions'])->group(function () {
+        Route::view('/dashboard/permissoes', 'dashboard.permissions', ['breadcrumbs' => [
+            ['label' => 'Dashboard', 'url' => url('dashboard')],
+            ['label' => 'Permissões', 'url' => url('permissoes')],
+        ]])->name('permissions');
+    });
+
+    //DASHBOARD -> AUDIT LOGS
+    Route::middleware(['can:viewPermissions'])->group(function () {
+        Route::view('/dashboard/auditora', 'dashboard.audit', ['breadcrumbs' => [
+            ['label' => 'Dashboard', 'url' => url('dashboard')],
+            ['label' => 'Auditoria', 'url' => url('auditoria')],
+        ]])->name('audit');
+    });
+
+    
 
     //DASHBOARD -> SERVICE
     Route::view('/dashboard/servico/{id}', 'dashboard.service', ['breadcrumbs' => [

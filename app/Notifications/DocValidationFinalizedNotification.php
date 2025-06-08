@@ -7,15 +7,15 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class DocValidationAssignNotification extends Notification implements ShouldQueue
+class DocValidationFinalizedNotification extends Notification implements ShouldQueue
 {
     use Queueable;
+
+    public $professional;
 
     /**
      * Create a new notification instance.
      */
-    public $professional;
-
     public function __construct($professional)
     {
         $this->professional = $professional;
@@ -39,10 +39,9 @@ class DocValidationAssignNotification extends Notification implements ShouldQueu
         $url = url('/documentos');
 
         return (new MailMessage)
-            ->subject('LivePRO - Validação de documento Atribuída a um Agente de Suporte')
+            ->subject('LivePRO - Validação de documento Finalizada')
             ->greeting('Olá ' . $this->professional->name . '!')
-            ->line('Informamos que sua validação de documentos já se encontra com um de nossos Agentes de Suporte LivePRO!')
-            ->line('Em breve você receberá uma resposta com o resultado da validação.')
+            ->line('Informamos que sua validação de documentos foi finalizada!')
             ->line('Acesse a avaliação clicando no botão abaixo!')
             ->action('Seus Documentos', $url);
     }
@@ -59,9 +58,11 @@ class DocValidationAssignNotification extends Notification implements ShouldQueu
             <path fill-rule="evenodd" d="M9 2a1 1 0 0 0-1 1H6a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2h-2a1 1 0 0 0-1-1H9Zm1 2h4v2h1a1 1 0 1 1 0 2H9a1 1 0 0 1 0-2h1V4Zm5.707 8.707a1 1 0 0 0-1.414-1.414L11 14.586l-1.293-1.293a1 1 0 0 0-1.414 1.414l2 2a1 1 0 0 0 1.414 0l4-4Z" clip-rule="evenodd"/>
             </svg>',
 
-            'title' => 'Validação de documento Atribuída a um Agente de Suporte',
+            'title' => 'Validação de documento Finalizada',
 
-            'body' => 'Informamos que sua validação de documentos já se encontra com um de nossos Agentes de Suporte LivePRO! Em breve você receberá uma resposta com o resultado da validação.',
+            'body' => 'Informamos que sua validação de documentos foi finalizada! Acesse sua avaliação para visualizar o resultado.',
+
+            'link' => url('/documentos'),
         ];
     }
 }

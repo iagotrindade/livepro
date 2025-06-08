@@ -239,7 +239,8 @@
                                     </td>
                                     <td class="px-4 py-2 font-medium">
                                         @if ($validation->status->getName() == 'Pendente')
-                                            <span wire:click="assignValidation({{ $validation->id, $validation->professionalDocument->user_id }})"
+                                            <span
+                                                wire:click="assignValidation({{ $validation->professionalDocument->user_id }})"
                                                 class="bg-green-400 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-md border dark:bg-green-700 text-white cursor-pointer hover:underline">
                                                 Atribuir-me
                                             </span>

@@ -17,4 +17,8 @@ class ProfessionalDocument extends Model
     public function document(): BelongsTo {
         return $this->belongsTo(Document::class);
     }
+
+    public function documentValidation(): BelongsTo {
+        return $this->belongsTo(DocumentValidation::class, 'id', 'professional_documents_id');
+    }
 }
